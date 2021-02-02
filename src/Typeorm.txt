@@ -1,0 +1,39 @@
+yarn add @nestjs/typeorm typeorm pg 
+sau
+npm install --save @nestjs/typeorm typeorm pg
+
+/src/config/typeorm.config.ts  
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+
+export const typeOrmConfig: TypeOrmModuleOptions = {
+    type: 'postgres',
+    host: 'localhost',
+    port: 5432,
+    username: 'postgres',
+    password: 'postgres',
+    database: 'taskmanagement',
+    entities:  [__dirname + '/../**/*.entity.ts'], // entities == tables in the db
+    synchronize: true, 
+};
+
+// [__dirname + ]  
+// means:
+// currentDir
+// ../ means one step back
+// ** means any directory
+// * means any file
+// file ending with .entity.ts
+
+
+iar in app.module.ts:
+import { StudentsModule } from './students/students.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/typeorm.config';
+   
+@Module({
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    TasksModule, 
+    StudentsModule],
+})
+export class AppModule {}
